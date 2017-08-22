@@ -37,6 +37,9 @@ module.exports = {
                 "MethodDefinition": true,
                 "ClassDeclaration": true
             }
-        }]
+        }],
+        "exceptMethods": [
+          "render"
+        ]
     }
   };
