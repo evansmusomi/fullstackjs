@@ -5,6 +5,10 @@ import Header from './Header';
  * Compose App component
  */
 class App extends React.Component {
+  state = { 
+    pageHeader: 'Naming Contests'
+  };
+
   /**
    * Render app
    * @returns {html} component HTML
@@ -12,9 +16,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header message='Naming Contests' />
+        <Header message={ this.state.pageHeader} />
         <div>
-          ---
+          ...
         </div>
       </div>
     );
