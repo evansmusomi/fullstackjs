@@ -1,5 +1,4 @@
 <%- include('header') -%>
-<div id="root">
-    <%- content %>
-</div>
+<script type="text/javascript">window.initialData = <%- JSON.stringify(initialData) -%>;</script>
+<div id="root"><div><%- initialMarkup %></div></div>
 <%- include('footer') -%>

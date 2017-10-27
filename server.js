@@ -17,12 +17,9 @@ import serverRender from './serverRender';
 
 server.get('/', (req, res) => {
   serverRender()
-    .then(content => {
-      res.render('index', {
-        content
-      });
-    })
-    .catch(console.error);
+    .then(({ initialMarkup, initialData }) => {
+      res.render('index', {initialMarkup, initialData});
+    });
 });
 
 server.use('/api', apiRouter);
