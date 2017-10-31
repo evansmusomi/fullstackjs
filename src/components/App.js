@@ -1,6 +1,14 @@
 import React from 'react';
 import Header from './Header';
 import ContestList from './ContestList';
+import Contest from './Contest';
+import PropTypes from 'prop-types';
+
+/* 
+ * Track navigation history
+ */
+const pushState = (obj, url) =>
+  window.history.pushState(obj, '', url);
 
 /**
  * Compose App component
@@ -19,6 +27,32 @@ class App extends React.Component {
   }
 
   /**
+   * Fetch requested contest
+   * @param {number} contestId
+   * @return {void}
+   */
+  fetchContest = (contestId) => {
+    pushState({ currentContestId: contestId}, `/contest/${contestId}`);
+    //lookup contest
+    this.setState({
+      pageHeader: this.state.contests[contestId].contestName,
+      currentContestId: contestId
+    })
+  }
+
+  /** 
+   * Display current content 
+   * @return { Component } that's relevant
+  */
+  currentContent() {
+    if (this.state.currentContestId){
+      return <Contest {...this.state.contests[this.state.currentContestId]} />
+    } 
+
+    return <ContestList onContestClick={this.fetchContest} contests={ this.state.contests} />;
+  }
+
+  /**
    * Render app
    * @returns {html} component HTML
    */
@@ -26,10 +60,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header message={ this.state.pageHeader} />
-        <ContestList contests={ this.state.contests} />
+        { this.currentContent() }
       </div>
     );
   }
+}
+
+App.propTypes = {
+  initialContests: PropTypes.object.isRequired
 }
 
 export default App;

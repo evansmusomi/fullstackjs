@@ -6,7 +6,7 @@ module.exports = {
       "es6": true,
       "node": true
     },
-    "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb-base"],
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
     "parserOptions": {
       "ecmaFeatures": {
         "experimentalObjectRestSpread": true,
@@ -23,7 +23,6 @@ module.exports = {
         "no-param-reassign": 0,
         "comma-dangle": 0,
         "curly": ["error", "multi-line"],
-        "import/no-unresolved": [2, { commonjs: true }],
         "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
         "valid-jsdoc": ["error", {
           "requireReturn": true,
@@ -37,9 +36,6 @@ module.exports = {
                 "MethodDefinition": true,
                 "ClassDeclaration": true
             }
-        }],
-        "exceptMethods": [
-          "render"
-        ]
+        }]
     }
   };
