@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ContestPreview = (contest) => (
   <div className="ContestPreview">
@@ -7,4 +8,7 @@ const ContestPreview = (contest) => (
   </div>
 );
 
+ContestPreview.propTypes = {
+  contest: PropTypes.object
+}
 export default ContestPreview;

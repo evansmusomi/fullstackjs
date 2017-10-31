@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ContestPreview from './ContestPreview';
 
 const ContestList = ({contests}) => (
@@ -10,7 +11,7 @@ const ContestList = ({contests}) => (
 );
 
 ContestList.propTypes = {
-  contests: React.PropTypes.array
+  contests: PropTypes.array
 };
 
 export default ContestList;
