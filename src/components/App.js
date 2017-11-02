@@ -12,6 +12,14 @@ const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);
 
 /**
+ * Abstract PopState event
+ * @param {handler} handler
+ * @return {void}
+ */
+const onPopState = (handler) =>
+  window.onpopstate = handler;
+
+/**
  * Compose App component
  */
 class App extends React.Component {
@@ -21,11 +29,25 @@ class App extends React.Component {
   
   state = this.props.initialData;
 
+
   /**
    * Update mounted component
    * @returns {state} updated state
    */
   componentDidMount() {
+    onPopState((event) => {
+      this.setState({
+        currentContestId: (event.state || {}).currentContestId
+      });
+    });
+  }
+
+  /**
+   * Updated unmounting component
+   * @returns {void}
+   */
+  componentWillUnmount(){
+    onPopState(null);
   }
 
   /**
