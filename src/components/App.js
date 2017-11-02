@@ -15,10 +15,11 @@ const pushState = (obj, url) =>
  * Compose App component
  */
 class App extends React.Component {
-  state = { 
-    pageHeader: 'Naming Contests',
-    contests: this.props.initialContests
+  static propTypes = {
+    initialData: PropTypes.object.isRequired
   };
+  
+  state = this.props.initialData;
 
   /**
    * Update mounted component
@@ -33,11 +34,10 @@ class App extends React.Component {
    * @return {void}
    */
   fetchContest = (contestId) => {
-    pushState({ currentContestId: contestId}, `/contest/${contestId}`);
+    pushState({ currentContestId: contestId}, `/contests/${contestId}`);
     //lookup contest
     api.fetchContest(contestId).then(contest => {
       this.setState({
-        pageHeader: contest.contestName,
         currentContestId: contest.id,
         contests: {
           ...this.state.contests,
@@ -45,6 +45,41 @@ class App extends React.Component {
         }
       })
     });
+  };
+
+  /**
+   * Fetch requested contests
+   * @return {ContestList} from the server
+   */
+  fetchContestList = () => {
+    pushState({ currentContestId: null}, '/');
+    //lookup contest
+    api.fetchContestList().then(contests => {
+      this.setState({
+        currentContestId: null,
+        contests
+      })
+    });
+  };
+
+  /**
+   * Return page header
+   * @return { String } page header
+   */
+  pageHeader(){
+    if(this.state.currentContestId){
+      return this.currentContest().contestName;
+    }
+
+    return 'Naming contests';
+  }
+
+  /**
+   * Return current contest
+   * @return { Contest } that's current
+   */
+  currentContest(){
+    return this.state.contests[this.state.currentContestId];
   }
 
   /** 
@@ -53,7 +88,8 @@ class App extends React.Component {
   */
   currentContent() {
     if (this.state.currentContestId){
-      return <Contest {...this.state.contests[this.state.currentContestId]} />
+      return <Contest contestListClick={this.fetchContestList}
+        {...this.currentContest()} />
     } 
 
     return <ContestList onContestClick={this.fetchContest} contests={ this.state.contests} />;
@@ -66,15 +102,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header message={ this.state.pageHeader} />
+        <Header message={ this.pageHeader()} />
         { this.currentContent() }
       </div>
     );
   }
-}
-
-App.propTypes = {
-  initialContests: PropTypes.object.isRequired
 }
 
 export default App;
